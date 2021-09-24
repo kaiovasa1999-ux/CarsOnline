@@ -18,7 +18,9 @@
         public IActionResult Index()
         {
             var totalCars = this.data.Cars.Count();
-            var totalUsers = this.data.Dealers.Count();
+            var totalDealers = this.data.Dealers.Count();
+            var totalUsers = this.data.Users.Count();
+            
             var cars = this.data.Cars
                .OrderByDescending(c => c.Id)
                .Select(c => new CarIndexViewModel
@@ -36,7 +38,7 @@
             {
                 Cars = cars,
                 TotalCars = totalCars,
-                TotaUsers = totalUsers,
+                TotalDealers = totalDealers
             });
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
