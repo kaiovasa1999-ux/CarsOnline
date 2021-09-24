@@ -2,6 +2,7 @@ namespace CarRentingSystem
 {
     using CarRentingSystem.Data;
     using CarRentingSystem.Infrastrucutre;
+    using CarRentingSystem.Services.Cars;
     using CarRentingSystem.Services.Statistics;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,7 @@ namespace CarRentingSystem
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddTransient<IStatisticsService, StatisticsService>();
+            services.AddTransient<ICarService, CarService>();
             services.Configure<ApiBehaviorOptions>(optiions =>
             {
                 optiions.SuppressModelStateInvalidFilter = true;
