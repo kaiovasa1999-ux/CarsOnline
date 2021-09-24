@@ -55,20 +55,48 @@
     </a>
 </div>
 
-
-<div class="jumbotron d-none">
-    <div class="row">
-        <div class="col-md-3 text-center">
-            <h2>@Model.TotalCars Total Cars</h2>
-        </div>
-        <div class="col-md-3 text-center">
-            <h2>@Model.TotaUsers Total Users</h2>
-        </div>
-        <div class="col-md-3 text-center">
-            <h2> @Model.TotalRents Total Rents</h2>
-        </div>
-        <div class="col-md-3 text-center">
-            <h2> @Model.TotalDealers Total Dealers</h2>
-        </div>
+<div class="row text-center">
+    <div class="col-12 text-center">
+        <button class="btn btn-primary" id="statistics-button">Show statistics</button>
     </div>
 </div>
+
+<div class="jumbotron d-none" id="statistics">
+    <div class="row">
+        <h2 class="col-md-3 text-center" id="total-cars"></h2>
+        <h2 class="col-md-3 text-center" id="totaUsers"></h2>
+        <h2 class="col-md-3 text-center" id="total-rents"></h2>
+        <h2 class="col-md-3 text-center" id="totalDealers"></h2>
+    </div>
+</div>
+
+@*<div class="jumbotron d-none">
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <h2>@Model.TotalCars Total Cars</h2>
+            </div>
+            <div class="col-md-3 text-center">
+                <h2>@Model.TotaUsers Total Users</h2>
+            </div>
+            <div class="col-md-3 text-center">
+                <h2> @Model.TotalRents Total Rents</h2>
+            </div>
+            <div class="col-md-3 text-center">
+                <h2> @Model.TotalDealers Total Dealers</h2>
+            </div>
+        </div>
+    </div>*@
+
+@section Scripts{
+    <script>
+        $('#statistics-button').on('click', ev => {
+            $.get('/api/statistics', (data) => {
+                $('#total-cars').text(data.totalCars + " Cars");
+                $('#totaUsers').text(data.totaUsers + " Users");
+                $('#total-rents').text(data.totalRents + " Rents");
+                $('#totalDealers').text(data.totalDealers + " Dealers");
+                $('#statistics').removeClass('d-none')
+            })
+        });
+    </script>
+}

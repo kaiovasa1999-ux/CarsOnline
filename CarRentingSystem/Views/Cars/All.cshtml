@@ -1,0 +1,90 @@
+﻿@model AllCarsQueryModel
+
+<form method="get">
+    <div class="form-group col-md-4">
+        <label asp-for="CarCategory">Sort by Category:</label>
+        <select asp-for="CarCategory" class="form-control">
+            <option value="">All</option>
+            @foreach (var category in Model.CarCategories)
+            {
+                <option value="@category">@category</option>
+            }
+        </select>
+    </div>
+    <div class="form-group col-md-4">
+        <label asp-for="Brand">Brand</label>
+        <select asp-for="Brand" class="form-control">
+            <option value="">All</option>
+            @foreach (var brand in Model.Brands)
+            {
+                <option value="@brand">@brand</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="SearchTherm">Search by text</label>
+        <input asp-for="SearchTherm">
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label asp-for="Sorting">Sorting</label>
+            <select asp-for="Sorting" class="form-control">
+                <option value="">
+                    All
+                </option>
+                <option value="0">Date Added</option>
+                <option value="1">Year</option>
+                <option value="2">Brand and Model</option>
+            </select>
+        </div>
+    </div>
+
+</form>
+<div class="row">
+    @foreach (var car in Model.Cars)
+    {
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@car.ImageUrl" alt="@car.Brand @car.Model">
+                <div class="card-body">
+                    <h5 class="card-title">@car.Brand @car.Model</h5>
+                    <a class="btn btn-primary" asp-controller="Cars" asp-action="About" asp-route-id="@car.Id">About</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@if (!Model.Cars.Any()) 
+{ 
+<h2 class="text-center text-danger">There are't any avaiable cars by the given criteria!'</h2>
+}
+@{
+    var previusPage = Model.CurrentPage - 1;
+    if (previusPage < 1)
+    {
+        previusPage = 1;
+    }
+    var totalCars = Model.TotalCars;
+    var totalPages = Math.Ceiling((double)totalCars / AllCarsQueryModel.CarsPerPage);
+
+}
+<div class="row col-12">
+    <div class="col-md-6">
+        <a class="btn btn-warning @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Cars"
+           asp-action="All"
+           asp-route-currentPage="@previusPage"
+           asp-route-brand="@Model.Brand"
+           asp-route-searchTerm="@Model.SearchTherm"
+           asp-route-sorting="@((int)Model.Sorting)"><<</a>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-warning @(Model.CurrentPage == totalPages ? "disabled" : string.Empty)"
+           asp-controller="Cars"
+           asp-action="All"
+           asp-route-currentPage="@(Model.CurrentPage + 1)"
+           asp-route-brand="@Model.Brand"
+           asp-route-searchTerm="@Model.SearchTherm"
+           asp-route-sorting="@((int)Model.Sorting)">>></a>
+    </div>
+</div>

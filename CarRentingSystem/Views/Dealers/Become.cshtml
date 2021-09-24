@@ -1,0 +1,25 @@
+﻿@model BecomeDealerFormModel
+
+@{ 
+    ViewBag.Title = "Become A Dealer";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="Name">Car Brand</label>
+                    <input asp-for="Name" placeholder="Name">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber">Phone number</label>
+                    <input asp-for="PhoneNumber">
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <input class="btn btn-success float-right" type="submit" value="Save" />
+            </form>
+        </div>
+    </div>
+</div>
