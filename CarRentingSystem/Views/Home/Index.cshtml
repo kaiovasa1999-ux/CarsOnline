@@ -70,23 +70,6 @@
     </div>
 </div>
 
-@*<div class="jumbotron d-none">
-        <div class="row">
-            <div class="col-md-3 text-center">
-                <h2>@Model.TotalCars Total Cars</h2>
-            </div>
-            <div class="col-md-3 text-center">
-                <h2>@Model.TotaUsers Total Users</h2>
-            </div>
-            <div class="col-md-3 text-center">
-                <h2> @Model.TotalRents Total Rents</h2>
-            </div>
-            <div class="col-md-3 text-center">
-                <h2> @Model.TotalDealers Total Dealers</h2>
-            </div>
-        </div>
-    </div>*@
-
 @section Scripts{
     <script>
         $('#statistics-button').on('click', ev => {
@@ -96,6 +79,7 @@
                 $('#total-rents').text(data.totalRents + " Rents");
                 $('#totalDealers').text(data.totalDealers + " Dealers");
                 $('#statistics').removeClass('d-none')
+                $('#statistics-button').hide
             })
         });
     </script>

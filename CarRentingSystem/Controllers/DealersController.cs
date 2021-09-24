@@ -1,13 +1,12 @@
-﻿using CarRentingSystem.Data;
-using CarRentingSystem.Data.Models;
-using CarRentingSystem.Infrastrucutre;
-using CarRentingSystem.Models.Dealer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-
-namespace CarRentingSystem.Controllers
+﻿namespace CarRentingSystem.Controllers
 {
+    using CarRentingSystem.Data;
+    using CarRentingSystem.Data.Models;
+    using CarRentingSystem.Infrastrucutre;
+    using CarRentingSystem.Models.Dealer;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Linq;
     public class DealersController : Controller
     {
         private readonly CarRentingDbContext data;

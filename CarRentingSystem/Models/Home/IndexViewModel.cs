@@ -1,8 +1,7 @@
-﻿using CarRentingSystem.Models.Home;
-using System.Collections.Generic;
-
-namespace CarRentingSystem.Models.Cars
+﻿namespace CarRentingSystem.Models.Cars
 {
+    using CarRentingSystem.Models.Home;
+    using System.Collections.Generic;
     public class IndexViewModel
     {
         public int TotalCars { get; set; }

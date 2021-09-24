@@ -1,34 +1,22 @@
-﻿using CarRentingSystem.Data;
-using CarRentingSystem.Data.Models.Api.Statistics;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-
-namespace CarRentingSystem.Controllers.Api
+﻿namespace CarRentingSystem.Controllers.Api
 {
+    using CarRentingSystem.Services.Statistics;
+    using Microsoft.AspNetCore.Mvc;
+
     [ApiController]
     [Route("api/statistics")]
 
     public class StatisticsApiController : ControllerBase
     {
-        private readonly CarRentingDbContext data;
-        public StatisticsApiController(CarRentingDbContext data)
+        private readonly IStatisticsService statistics;
+        public StatisticsApiController(IStatisticsService statistics)
         {
-            this.data = data;
+            this.statistics = statistics;
         }
         [HttpGet]
-        public StatisticsResponeModel GetStatistics()
+        public StatisticsServiceModel GetStatistics()
         {
-            var totalCars = this.data.Cars.Count();
-            var totalDealers = this.data.Dealers.Count();
-            var totalUsers = this.data.Users.Count();
-
-            return new StatisticsResponeModel
-            {
-                TotalCars = totalCars,
-                TotalDealers = totalDealers,
-                TotaUsers = totalUsers,
-                TotalRents = 0,
-            };
+           return this.statistics.Total();
         }
     }
 }
