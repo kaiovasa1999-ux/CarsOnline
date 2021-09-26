@@ -78,6 +78,7 @@
 
             return RedirectToAction(nameof(All));
         }
+       
         [HttpGet]
         public IActionResult All([FromQuery] AllCarsQueryModel query)
         {

@@ -64,6 +64,7 @@ namespace CarRentingSystem.Services.Cars
                     ImageUrl = c.ImageUrl,
 
                 }).ToList();
+
             return new CarQueryServiceModel
             {
                 CarsPerPage = carsPerPage,
