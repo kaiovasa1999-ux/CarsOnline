@@ -6,7 +6,6 @@
 
     public interface ICarService
     {
-        // AddCarFormModel Add();
         CarQueryServiceModel
             All(
             string brand,
@@ -24,7 +23,14 @@
                 string description,
                 int categoryId,
                 int dealerId);
-
+        bool Edit(int carId,
+                string brand,
+                string model,
+                int year,
+                string imageUrl,
+                string description,
+                int categoryId);
+        bool IsByDealer(int carId, int dealerId);
         IEnumerable<CarServiceModel> ByUser(string userId);
         IEnumerable<string> AllCarBrands();
         IEnumerable<string> AllCarcategoreis();

@@ -11,7 +11,6 @@ namespace CarRentingSystem.Services.Cars
     public class CarService : ICarService
     {
         private readonly CarRentingDbContext data;
-       // private readonly IDealerService dealers;
         public CarService(CarRentingDbContext data, IDealerService dealers)
         {
             this.data = data;
@@ -121,9 +120,33 @@ namespace CarRentingSystem.Services.Cars
 
             return carData.Id;
         }
+           
+           
+        public bool Edit(int carId, string brand, string model, int year, string imageUrl, string description, int categoryId )
+        {
+            var carData = this.data.Cars.Find(carId);
+            if(carData == null)
+            {
+                return false;
+            }
+
+            carData.Brand = brand;
+            carData.Model = model;
+            carData.Year = year;
+            carData.ImageUrl = imageUrl;
+            carData.Description = description;
+            carData.CategoryId = categoryId;
+
+            this.data.SaveChanges();
+            return true;
+        }
         public IEnumerable<CarServiceModel> ByUser(string userId)
         {
            return GetCars(this.data.Cars.Where(c => c.Dealer.UserId == userId));
+        }
+        public bool IsByDealer(int carId, int dealerId)
+        {
+            return this.data.Cars.Any(c => c.Id == carId && c.DealerId == dealerId);
         }
         public IEnumerable<string> AllCarBrands()
         {
@@ -169,6 +192,10 @@ namespace CarRentingSystem.Services.Cars
                 .ToList();
         }
 
-       
+
+        public bool Edit(int carId, string brand, string model, int year, string imageUrl, string description, int categoryId, int dealerId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

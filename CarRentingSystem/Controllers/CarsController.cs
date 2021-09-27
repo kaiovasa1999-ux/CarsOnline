@@ -46,24 +46,25 @@
             {
                 return RedirectToAction(nameof(DealersController.Become), "Dealer");
             }
+            if (!this.cars.CategoryExsist(car.CategoryId))
+            {
+                ModelState.AddModelError(nameof(car.CategoryId), "This car category does't exist in our database");
+            }
             if (!ModelState.IsValid)
             {
                 car.Categories = cars.GetCategories();
                 return View(car);
             }
 
-            if (!this.cars.CategoryExsist(car.CategoryId))
-            {
-                ModelState.AddModelError(nameof(car.CategoryId), "This car category does't exist in our database");
-            }
 
-          
+
+
 
             this.cars.Create(car.Brand,
-                car.Model, 
+                car.Model,
                 car.Year,
                 car.ImageUrl,
-                car.Description, 
+                car.Description,
                 car.CategoryId,
                 dealerId);
 
@@ -109,7 +110,7 @@
                 return RedirectToAction(nameof(DealersController.Become), "Dealers");
             }
             var car = this.cars.GetDetails(id);
-            if(car.UserId != userId)
+            if (car.UserId != userId)
             {
                 return BadRequest();
             }
@@ -119,10 +120,44 @@
                 Brand = car.Brand,
                 Model = car.Model,
                 Description = car.Description,
-                ImageUrl =car.ImageUrl,
+                ImageUrl = car.ImageUrl,
                 CategoryId = car.CategoryId,
                 Categories = this.cars.GetCategories()
             });
+        }
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(int id, CarFormModel car)
+        {
+            var dealerId = this.dealers.GetIdByUser(this.User.GetId());
+            if (dealerId == 0)
+            {
+                return RedirectToAction(nameof(DealersController.Become), "Dealer");
+            }
+            if (!this.cars.CategoryExsist(car.CategoryId))
+            {
+                ModelState.AddModelError(nameof(car.CategoryId), "This car category does't exist in our database");
+            }
+            if (!ModelState.IsValid)
+            {
+                car.Categories = cars.GetCategories();
+                return View(car);
+            }
+            if (!this.cars.IsByDealer(id,dealerId))
+            {
+                return BadRequest();
+            }
+                 this.cars.Edit(
+                id,
+                car.Brand,
+                car.Model,
+                car.Year,
+                car.ImageUrl,
+                car.Description,
+                car.CategoryId
+                );
+         
+            return RedirectToAction(nameof(All));
         }
     }
 }
