@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace CarRentingSystem.Services.Cars
+﻿namespace CarRentingSystem.Services.Cars
 {
+    using System.Collections.Generic;
+
     public class CarQueryServiceModel 
     {
         public int CurrentPage { get; set; } 

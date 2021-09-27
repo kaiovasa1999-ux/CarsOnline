@@ -6,7 +6,7 @@
         public string Brand { get; set; }
         public string Model { get; set; }
         public int Year { get; set; }
-        public string Category { get; set; }
+        public string CategoryName { get; set; }
         public string ImageUrl { get; set; }  
     }
 }

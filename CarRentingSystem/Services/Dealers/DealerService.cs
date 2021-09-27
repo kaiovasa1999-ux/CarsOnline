@@ -9,11 +9,18 @@
         {
             this.data = data;
         }
-
-
         bool IDealerService.IsDealer(string userId)
         {
             return this.data.Dealers.Any(d => d.UserId == userId);
         }
+        public int GetIdByUser(string userId)
+        {
+           return this.data.Dealers
+                .Where(d => d.UserId == userId)
+                .Select(d => d.Id)
+                .FirstOrDefault();
+        }
+
+
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace CarRentingSystem.Models.Api.Cars
+﻿namespace CarRentingSystem.Models.Api.Cars
 {
     using CarRentingSystem.Models.Cars;
     using System.Collections.Generic;

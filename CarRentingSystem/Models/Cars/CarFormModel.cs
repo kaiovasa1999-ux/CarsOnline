@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace CarRentingSystem.Models.Cars
+﻿namespace CarRentingSystem.Models.Cars
 {
+    using CarRentingSystem.Services.Cars;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using static Data.DatabaseConstants.CarConst;
-    public class AddCarFormModel
+    public class CarFormModel
     {
         [Required]
         [StringLength(BrandMaxLength, MinimumLength = BrandMinLength, ErrorMessage = "The Brand length msut be between {2} and {1} symbols long!")]
@@ -20,6 +20,6 @@ namespace CarRentingSystem.Models.Cars
         [Range(MinYear,MaxYear)]
         public int Year { get; init; }
         public int CategoryId { get; set; }
-        public IEnumerable<CarCategoryViewModel> Categories { get; set; }
+        public IEnumerable<CarCategoriesServiceModel> Categories { get; set; }
     }
 }

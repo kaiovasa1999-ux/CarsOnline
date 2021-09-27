@@ -1,6 +1,8 @@
 ﻿using CarRentingSystem.Data;
 using CarRentingSystem.Data.Models;
 using CarRentingSystem.Models;
+using CarRentingSystem.Models.Cars;
+using CarRentingSystem.Services.Dealer;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +11,8 @@ namespace CarRentingSystem.Services.Cars
     public class CarService : ICarService
     {
         private readonly CarRentingDbContext data;
-        public CarService(CarRentingDbContext data)
+       // private readonly IDealerService dealers;
+        public CarService(CarRentingDbContext data, IDealerService dealers)
         {
             this.data = data;
         }
@@ -61,7 +64,7 @@ namespace CarRentingSystem.Services.Cars
                     Brand = c.Brand,
                     Model = c.Model,
                     Year = c.Year,
-                    Category = c.Category.Name,
+                    CategoryName = c.Category.Name,
                     ImageUrl = c.ImageUrl,
 
                 }).ToList();
@@ -74,11 +77,54 @@ namespace CarRentingSystem.Services.Cars
                 CurrentPage = currentPage,
             };
         }
+        public CarDetailsServiceModel GetDetails(int id)
+        {
+            var car = this.data.Cars.Where(c => c.Id == id)
+                .Select(c => new CarDetailsServiceModel
+                {
+                    Id = c.Id,
+                    Brand = c.Brand,
+                    Model = c.Model,
+                    Year = c.Year,
+                    Description = c.Description,
+                    DealerId = c.DealerId,
+                    DealerName = c.Dealer.Name,
+                    UserId = c.Dealer.UserId,
+                    CategoryName = c.Category.Name,
+                    ImageUrl = c.ImageUrl,
+                })
+                .FirstOrDefault();
+
+            return car;
+        }
+        public int Create(string brand,
+            string model, 
+            int year,
+            string imageUrl,
+            string description, 
+            int categoryId, 
+            int dealerId)
+        {
+            var carData = new Car
+            {
+                Brand = brand,
+                Model = model,
+                Year = year,
+                ImageUrl = imageUrl,
+                Description = description,
+                CategoryId = categoryId,
+                DealerId = dealerId,
+            };
+
+            this.data.Cars.Add(carData);
+            this.data.SaveChanges();
+
+            return carData.Id;
+        }
         public IEnumerable<CarServiceModel> ByUser(string userId)
         {
            return GetCars(this.data.Cars.Where(c => c.Dealer.UserId == userId));
         }
-
         public IEnumerable<string> AllCarBrands()
         {
             return this.data
@@ -87,7 +133,6 @@ namespace CarRentingSystem.Services.Cars
                .Distinct()
                .ToList();
         }
-
         public IEnumerable<string> AllCarcategoreis()
         {
             return this.data.Categories
@@ -95,6 +140,20 @@ namespace CarRentingSystem.Services.Cars
               .Distinct()
               .OrderBy(c => c)
               .ToList();
+        }
+        public IEnumerable<CarCategoriesServiceModel> GetCategories()
+        {
+            var categoreis = this.data.Categories.Select(c => new CarCategoriesServiceModel
+            {
+                Id = c.Id,
+                Name = c.Name,
+            })
+                .ToList();
+            return categoreis;
+        }
+        public bool CategoryExsist(int categoryId)
+        {
+           return this.data.Categories.Any(c => c.Id == categoryId);
         }
         public static IEnumerable<CarServiceModel> GetCars(IQueryable<Car> carsQuery)
         {
@@ -104,10 +163,12 @@ namespace CarRentingSystem.Services.Cars
                 Brand = c.Brand,
                 Model = c.Model,
                 Year = c.Year,
-                Category = c.Category.Name,
+                CategoryName = c.Category.Name,
                 ImageUrl = c.ImageUrl,
             })
                 .ToList();
         }
+
+       
     }
 }
