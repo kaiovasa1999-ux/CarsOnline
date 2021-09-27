@@ -1,4 +1,5 @@
 ﻿using CarRentingSystem.Data;
+using CarRentingSystem.Data.Models;
 using CarRentingSystem.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,6 +74,10 @@ namespace CarRentingSystem.Services.Cars
                 CurrentPage = currentPage,
             };
         }
+        public IEnumerable<CarServiceModel> ByUser(string userId)
+        {
+           return GetCars(this.data.Cars.Where(c => c.Dealer.UserId == userId));
+        }
 
         public IEnumerable<string> AllCarBrands()
         {
@@ -85,11 +90,24 @@ namespace CarRentingSystem.Services.Cars
 
         public IEnumerable<string> AllCarcategoreis()
         {
-           return this.data.Categories
-             .Select(c => c.Name)
-             .Distinct()
-             .OrderBy(c => c)
-             .ToList();
+            return this.data.Categories
+              .Select(c => c.Name)
+              .Distinct()
+              .OrderBy(c => c)
+              .ToList();
+        }
+        public static IEnumerable<CarServiceModel> GetCars(IQueryable<Car> carsQuery)
+        {
+            return carsQuery.Select(c => new CarServiceModel
+            {
+                Id = c.Id,
+                Brand = c.Brand,
+                Model = c.Model,
+                Year = c.Year,
+                Category = c.Category.Name,
+                ImageUrl = c.ImageUrl,
+            })
+                .ToList();
         }
     }
 }

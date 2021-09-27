@@ -39,7 +39,6 @@
         [Authorize]
         public IActionResult Add(AddCarFormModel car)
         {
-
             var dealerId = this.data.Dealers
                 .Where(d => d.UserId == this.User.GetId())
                 .Select(d => d.Id)
@@ -101,6 +100,11 @@
             query.TotalCars = totalCars;
 
             return View(query);
+        }
+        public IActionResult Mine()
+        {
+            var myCars = this.cars.ByUser(this.User.GetId());
+            return View(myCars);
         }
         private bool UserIsDealer()
             => this.data.Dealers

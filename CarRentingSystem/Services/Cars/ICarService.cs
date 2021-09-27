@@ -15,6 +15,7 @@
             int carsPerPage,
             int currentPage);
 
+        IEnumerable<CarServiceModel> ByUser(string userId);
         IEnumerable<string> AllCarBrands();
         IEnumerable<string> AllCarcategoreis();
     }

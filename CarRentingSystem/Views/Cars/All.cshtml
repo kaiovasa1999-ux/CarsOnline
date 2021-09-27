@@ -40,24 +40,14 @@
     </div>
 
 </form>
-<div class="row">
-    @foreach (var car in Model.Cars)
-    {
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="@car.ImageUrl" alt="@car.Brand @car.Model">
-                <div class="card-body">
-                    <h5 class="card-title">@car.Brand @car.Model</h5>
-                    <a class="btn btn-primary" asp-controller="Cars" asp-action="About" asp-route-id="@car.Id">About</a>
-                </div>
-            </div>
-        </div>
-    }
-</div>
-@if (!Model.Cars.Any()) 
-{ 
-<h2 class="text-center text-danger">There are't any avaiable cars by the given criteria!'</h2>
+
+@if (!Model.Cars.Any())
+{
+    <h2 class="text-center text-danger">There are't any avaiable cars by the given criteria!'</h2>
 }
+
+<partial name="_CarsPartial" model="@Model.Cars" />
+
 @{
     var previusPage = Model.CurrentPage - 1;
     if (previusPage < 1)
