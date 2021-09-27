@@ -9,7 +9,7 @@
 
     @if (SignInManager.IsSignedIn(User))
     {
-        @if (User.IsInRole("Dealer"))
+        @if (!User.IsInRole("Dealer"))
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Dealers" asp-action="Become">Become Dealer</a>
@@ -24,10 +24,20 @@
                 <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="Mine">My Cars</a>
             </li>
         }
+        if (SignInManager.IsSignedIn(this.User))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark " asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+            </li>
+        }
 
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-        </li>
+
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>

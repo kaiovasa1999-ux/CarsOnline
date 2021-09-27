@@ -27,7 +27,7 @@
             var userIsDealer = UserIsDealer();
             if (!userIsDealer)
             {
-                return RedirectToAction(nameof(DealersController.Become), "Dealer");
+                return RedirectToAction(nameof(DealersController.Become), "Dealers");
             }
             return View(new AddCarFormModel
             {

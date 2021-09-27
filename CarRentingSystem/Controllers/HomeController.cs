@@ -20,7 +20,6 @@
         }
         public IActionResult Index()
         {
-
             var cars = this.data.Cars
                .OrderByDescending(c => c.Id)
                .Select(c => new CarIndexViewModel
