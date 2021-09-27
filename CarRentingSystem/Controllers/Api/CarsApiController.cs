@@ -3,7 +3,6 @@
     using CarRentingSystem.Models.Api.Cars;
     using CarRentingSystem.Services.Cars;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
 
     [ApiController]
     [Route("api/cars")]

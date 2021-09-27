@@ -1,6 +1,7 @@
 ﻿namespace CarRentingSystem.Services.Dealer
 {
     using CarRentingSystem.Data;
+    using CarRentingSystem.Data.Models;
     using System.Linq;
     public class DealerService : IDealerService
     {
@@ -21,6 +22,17 @@
                 .FirstOrDefault();
         }
 
+        public string BecomeDealer(string dealerName, string phoneNumber)
+        {
+            var dealerData = new Dealer
+            {
+                Name = dealerName,
+                PhoneNumber = phoneNumber
+            };
+            this.data.Dealers.Add(dealerData);
+            this.data.SaveChanges();
 
+            return dealerData.Name;
+        }
     }
 }

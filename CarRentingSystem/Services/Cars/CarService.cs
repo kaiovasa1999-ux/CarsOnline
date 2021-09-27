@@ -192,10 +192,5 @@ namespace CarRentingSystem.Services.Cars
                 .ToList();
         }
 
-
-        public bool Edit(int carId, string brand, string model, int year, string imageUrl, string description, int categoryId, int dealerId)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

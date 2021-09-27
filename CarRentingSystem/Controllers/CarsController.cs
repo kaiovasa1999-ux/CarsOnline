@@ -56,10 +56,6 @@
                 return View(car);
             }
 
-
-
-
-
             this.cars.Create(car.Brand,
                 car.Model,
                 car.Year,
