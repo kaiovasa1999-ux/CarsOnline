@@ -97,45 +97,46 @@
             return View(myCars);
         }
 
-        [HttpPost]
-        public IActionResult Delete(int id,CarFormModel car)
-        {
-            var dealerId = this.dealers.GetIdByUser(this.User.GetId());
+        //[HttpPost]
+        //public IActionResult Delete(int id,CarFormModel car)
+        //{
+        //    var dealerId = this.dealers.GetIdByUser(this.User.GetId());
 
-            if (dealerId == 0)
-            {
-                return RedirectToAction(nameof(DealersController.Become), "Dealer");
-            }
-            if (!this.cars.CategoryExsist(car.CategoryId))
-            {
-                ModelState.AddModelError(nameof(car.CategoryId), "This car category does't exist in our database");
-            }
-            if (!ModelState.IsValid)
-            {
-                car.Categories = cars.GetCategories();
-                return View(car);
-            }
-            if (!this.cars.IsByDealer(id, dealerId))
-            {
-                return BadRequest();
-            }
+        //    if (dealerId == 0)
+        //    {
+        //        return RedirectToAction(nameof(DealersController.Become), "Dealer");
+        //    }
+        //    if (!this.cars.CategoryExsist(car.CategoryId))
+        //    {
+        //        ModelState.AddModelError(nameof(car.CategoryId), "This car category does't exist in our database");
+        //    }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        car.Categories = cars.GetCategories();
+        //        return View(car);
+        //    }
+        //    if (!this.cars.IsByDealer(id, dealerId))
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var carDelte = this.cars.Delete(id);
+        //    var carDelte = this.cars.Delete(id);
 
-            return RedirectToAction(nameof(Mine));
-        }
+        //    return RedirectToAction(nameof(Mine));
+        //}
         [Authorize]
         public IActionResult Edit(int id)
         {
             var userId = this.User.GetId();
             var userIsDealer = dealers.IsDealer(userId);
+            var isAdmin = this.User.IsAdmin();
 
-            if (!userIsDealer)
+            if (!userIsDealer && !isAdmin)
             {
                 return RedirectToAction(nameof(DealersController.Become), "Dealers");
             }
             var car = this.cars.GetDetails(id);
-            if (car.UserId != userId)
+            if (car.UserId != userId && !isAdmin)
             {
                 return BadRequest();
             }
@@ -155,7 +156,8 @@
         public IActionResult Edit(int id, CarFormModel car)
         {
             var dealerId = this.dealers.GetIdByUser(this.User.GetId());
-            if (dealerId == 0)
+            var userIsAdmin = this.User.IsAdmin();
+            if (dealerId == 0 && !userIsAdmin)
             {
                 return RedirectToAction(nameof(DealersController.Become), "Dealer");
             }
@@ -168,19 +170,20 @@
                 car.Categories = cars.GetCategories();
                 return View(car);
             }
-            if (!this.cars.IsByDealer(id, dealerId))
+            if (!this.cars.IsByDealer(id, dealerId) && !userIsAdmin)
             {
                 return BadRequest();
             }
-            this.cars.Edit(
-           id,
-           car.Brand,
-           car.Model,
-           car.Year,
-           car.ImageUrl,
-           car.Description,
-           car.CategoryId
-           );
+            this.cars
+                .Edit(
+                       id,
+                       car.Brand,
+                       car.Model,
+                       car.Year,
+                       car.ImageUrl,
+                       car.Description,
+                       car.CategoryId
+                    );
 
             return RedirectToAction(nameof(All));
         }

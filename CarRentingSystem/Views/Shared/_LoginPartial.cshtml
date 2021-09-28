@@ -12,7 +12,8 @@
     {
         string userId = User.GetId();
         var userIsDealer = Dealers.IsDealer(userId);
-        @if (!userIsDealer)
+        var userIsAdmin = User.IsInRole(WebConstants.AdministratorRoleName);
+        @if (userIsDealer && !userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Dealers" asp-action="Become">Become Dealer</a>
@@ -20,7 +21,7 @@
         }
 
         
-        @if (userIsDealer)
+        @if (userIsDealer && !userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="Mine">My Cars</a>
