@@ -66,7 +66,7 @@
            asp-route-currentPage="@previusPage"
            asp-route-brand="@Model.Brand"
            asp-route-searchTerm="@Model.SearchTherm"
-           asp-route-sorting="@((int)Model.Sorting)"><<</a>
+           asp-route-sorting="@((int)Model.Sorting)">Prev</a>
     </div>
     <div class="col-md-6">
         <a class="btn btn-warning @(Model.CurrentPage == totalPages ? "disabled" : string.Empty)"
@@ -75,6 +75,10 @@
            asp-route-currentPage="@(Model.CurrentPage + 1)"
            asp-route-brand="@Model.Brand"
            asp-route-searchTerm="@Model.SearchTherm"
-           asp-route-sorting="@((int)Model.Sorting)">>></a>
+           asp-route-sorting="@((int)Model.Sorting)">Next</a>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
