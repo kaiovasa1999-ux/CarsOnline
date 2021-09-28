@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using CarRentingSystem.Services.Dealer
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using CarRentingSystem.Data.Models;
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @inject IDealerService Dealers
 
 <ul class="navbar-nav">
@@ -9,15 +10,16 @@
 
     @if (SignInManager.IsSignedIn(User))
     {
-        @if (User.IsInRole("Dealer"))
+        string userId = User.GetId();
+        var userIsDealer = Dealers.IsDealer(userId);
+        @if (!userIsDealer)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Dealers" asp-action="Become">Become Dealer</a>
             </li>
         }
 
-        string userId = User.GetId();
-        var userIsDealer = Dealers.IsDealer(userId);
+        
         @if (userIsDealer)
         {
             <li class="nav-item">

@@ -1,12 +1,14 @@
 ﻿namespace CarRentingSystem.Controllers
 {
     using CarRentingSystem.Data;
+    using CarRentingSystem.Data.Models;
     using CarRentingSystem.Infrastrucutre;
     using CarRentingSystem.Models.Dealer;
     using CarRentingSystem.Services.Dealer;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
+
     public class DealersController : Controller
     {
         private readonly CarRentingDbContext data;
@@ -25,8 +27,13 @@
         [Authorize]
         public IActionResult Become(BecomeDealerFormModel dealer)
         {
-            var userIsAlreadyDealer = this.dealers.IsDealer(this.User.GetId());
-            if (userIsAlreadyDealer)
+            var userId = this.User.GetId();
+
+            var userIdAlreadyDealer = this.data
+                .Dealers
+                .Any(d => d.UserId == userId);
+
+            if (userIdAlreadyDealer)
             {
                 return BadRequest();
             }
@@ -35,9 +42,18 @@
             {
                 return View(dealer);
             }
-            dealers.BecomeDealer(dealer.Name,dealer.PhoneNumber);
 
-            return RedirectToAction(nameof(CarsController.Add), "Cars");
+            var dealerData = new Dealer
+            {
+                Name = dealer.Name,
+                PhoneNumber = dealer.PhoneNumber,
+                UserId = userId
+            };
+
+            this.data.Dealers.Add(dealerData);
+            this.data.SaveChanges();
+
+            return RedirectToAction(nameof(CarsController.All), "Cars");
         }
     }
 }

@@ -16,23 +16,10 @@
         }
         public int GetIdByUser(string userId)
         {
-           return this.data.Dealers
-                .Where(d => d.UserId == userId)
-                .Select(d => d.Id)
-                .FirstOrDefault();
-        }
-
-        public string BecomeDealer(string dealerName, string phoneNumber)
-        {
-            var dealerData = new Dealer
-            {
-                Name = dealerName,
-                PhoneNumber = phoneNumber
-            };
-            this.data.Dealers.Add(dealerData);
-            this.data.SaveChanges();
-
-            return dealerData.Name;
+            return this.data.Dealers
+                 .Where(d => d.UserId == userId)
+                 .Select(d => d.Id)
+                 .FirstOrDefault();
         }
     }
 }

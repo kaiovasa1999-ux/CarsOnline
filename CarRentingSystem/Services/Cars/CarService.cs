@@ -120,8 +120,17 @@ namespace CarRentingSystem.Services.Cars
 
             return carData.Id;
         }
-           
-           
+        public int Delete(int carId)
+        {
+            var carForDelete = this.data.Cars.First(c => c.Id == carId);
+            if(carForDelete != null)
+            {
+                this.data.Cars.Remove(carForDelete);
+                this.data.SaveChanges();
+            }
+            return carId;
+        }
+
         public bool Edit(int carId, string brand, string model, int year, string imageUrl, string description, int categoryId )
         {
             var carData = this.data.Cars.Find(carId);
@@ -191,6 +200,5 @@ namespace CarRentingSystem.Services.Cars
             })
                 .ToList();
         }
-
     }
 }

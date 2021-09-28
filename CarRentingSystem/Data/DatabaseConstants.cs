@@ -24,5 +24,12 @@
             public const int DealerPhoneNumberMaxLength = 20;
             public const int DealerPhonNumberMinLength = 3;
         }
+        public class User
+        {
+            public const int FullNameMaxLength = 35;
+            public const int FullNameMinLength = 3;
+            public const int PasswordMaxLength = 100;
+            public const int PasswordMinLength = 3;
+        }
     }
 }

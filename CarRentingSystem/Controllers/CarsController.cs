@@ -10,17 +10,18 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public class CarsController : Controller
     {
-        private readonly CarRentingDbContext data;
         private readonly ICarService cars;
         private readonly IDealerService dealers;
+        private readonly CarRentingDbContext data;
         public CarsController(CarRentingDbContext data, ICarService cars, IDealerService dealers)
         {
-            this.data = data;
             this.cars = cars;
             this.dealers = dealers;
+            this.data = data;
 
         }
         [Authorize]
@@ -95,6 +96,34 @@
             var myCars = this.cars.ByUser(this.User.GetId());
             return View(myCars);
         }
+
+        [HttpPost]
+        public IActionResult Delete(int id,CarFormModel car)
+        {
+            var dealerId = this.dealers.GetIdByUser(this.User.GetId());
+
+            if (dealerId == 0)
+            {
+                return RedirectToAction(nameof(DealersController.Become), "Dealer");
+            }
+            if (!this.cars.CategoryExsist(car.CategoryId))
+            {
+                ModelState.AddModelError(nameof(car.CategoryId), "This car category does't exist in our database");
+            }
+            if (!ModelState.IsValid)
+            {
+                car.Categories = cars.GetCategories();
+                return View(car);
+            }
+            if (!this.cars.IsByDealer(id, dealerId))
+            {
+                return BadRequest();
+            }
+
+            var carDelte = this.cars.Delete(id);
+
+            return RedirectToAction(nameof(Mine));
+        }
         [Authorize]
         public IActionResult Edit(int id)
         {
@@ -139,20 +168,20 @@
                 car.Categories = cars.GetCategories();
                 return View(car);
             }
-            if (!this.cars.IsByDealer(id,dealerId))
+            if (!this.cars.IsByDealer(id, dealerId))
             {
                 return BadRequest();
             }
-                 this.cars.Edit(
-                id,
-                car.Brand,
-                car.Model,
-                car.Year,
-                car.ImageUrl,
-                car.Description,
-                car.CategoryId
-                );
-         
+            this.cars.Edit(
+           id,
+           car.Brand,
+           car.Model,
+           car.Year,
+           car.ImageUrl,
+           car.Description,
+           car.CategoryId
+           );
+
             return RedirectToAction(nameof(All));
         }
     }

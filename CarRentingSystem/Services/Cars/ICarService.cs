@@ -30,6 +30,7 @@
                 string imageUrl,
                 string description,
                 int categoryId);
+        int Delete(int carId);
         bool IsByDealer(int carId, int dealerId);
         IEnumerable<CarServiceModel> ByUser(string userId);
         IEnumerable<string> AllCarBrands();

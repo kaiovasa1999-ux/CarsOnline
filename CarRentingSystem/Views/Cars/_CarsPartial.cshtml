@@ -12,7 +12,7 @@
                     @if (ViewBag.AllowCarEdit = true)
                     {
                         <a class="btn btn-warning" asp-controller="Cars" asp-action="Edit" asp-route-id="@car.Id">Edit</a>
-                        <a class="btn btn-danger" asp-controller="Cars" asp-action="Delet" asp-route-id="@car.Id">Delete</a>
+                        <a class="btn btn-danger" asp-controller="Cars" asp-action="Delete" asp-route-id="@car.Id">Delete</a>
                     }
                 </div>
             </div>
