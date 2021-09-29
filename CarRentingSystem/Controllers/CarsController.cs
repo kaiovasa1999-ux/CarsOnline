@@ -96,9 +96,8 @@
             var myCars = this.cars.ByUser(this.User.GetId());
             return View(myCars);
         }
-
-        [HttpPost]
-        public IActionResult Delete(int id, CarFormModel car)
+        [Authorize]
+        public IActionResult Delete(int id, DeletFormModel car)
         {
             var dealerId = this.dealers.GetIdByUser(this.User.GetId());
 
@@ -112,7 +111,7 @@
             }
             if (!ModelState.IsValid)
             {
-                car.Categories = cars.GetCategories();
+               // car.Categories = cars.GetCategories();
                 return View(car);
             }
             if (!this.cars.IsByDealer(id, dealerId))

@@ -3,6 +3,7 @@
 <div class="row">
     @foreach (var car in Model)
     {
+    <form method="post">
         <div class="col-md-4">
             <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="@car.ImageUrl" alt="@car.Brand @car.Model Year @car.Year">
@@ -17,6 +18,7 @@
                 </div>
             </div>
         </div>
+    </form>
     }
 </div>
 

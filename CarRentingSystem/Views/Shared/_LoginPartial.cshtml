@@ -13,7 +13,7 @@
         string userId = User.GetId();
         var userIsDealer = Dealers.IsDealer(userId);
         var userIsAdmin = User.IsInRole(WebConstants.AdministratorRoleName);
-        @if (userIsDealer && !userIsAdmin)
+        @if (!userIsDealer && !userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Dealers" asp-action="Become">Become Dealer</a>
