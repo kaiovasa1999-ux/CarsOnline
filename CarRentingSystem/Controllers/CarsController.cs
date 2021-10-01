@@ -111,7 +111,6 @@
             }
             if (!ModelState.IsValid)
             {
-               // car.Categories = cars.GetCategories();
                 return View(car);
             }
             if (!this.cars.IsByDealer(id, dealerId))
@@ -123,7 +122,26 @@
 
             return RedirectToAction(nameof(Mine));
         }
+        public async Task<IActionResult> OnPostDelete(int id)
+        {
+            var car = this.data.Cars
+                .Where(c => c.Id == id)
+                .Select(c => c.Id)
+                .FirstOrDefault();
+
+            if (car == 0)
+            {
+                return NotFound();
+
+            }
+
+            this.cars.Delete(car);
+            await this.data.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Mine));
+        }
         [Authorize]
+
         public IActionResult Edit(int id)
         {
             var userId = this.User.GetId();
